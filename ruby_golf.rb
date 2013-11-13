@@ -76,6 +76,12 @@ module RubyGolf
   #           level are prepended by two additional spaces per level away from
   #           the top level
   def self.pretty_hash(h)
+    h.inject("") do |o,(a,b)|
+      o<<"#{a}:\n"
+      o<< b.inject("") do |u,(c,d)|
+        u << (d ? "  #{c}:\n  - #{d.is_a?(Array) ? d.join("\n  - ") : d}\n" : "- #{c}\n")
+      end
+    end
   end
 
 
