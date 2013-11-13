@@ -95,7 +95,7 @@ module RubyGolf
   #           word 1* ...)
   #         * sum all products
   def self.word_letter_sum(s)
-    s.downcase.split.map{ |w| z += b.chars.inject(0){|x,a|x = x+a.ord-96}}
+    s.downcase.split.map{ |w| w.chars.inject(0){|s,x|s+=x.ord-96}}.sort.reverse.map.with_index{|z,i|z*(i+1)}.reduce(:+)
   end
 
 
