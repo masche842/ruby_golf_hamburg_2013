@@ -73,12 +73,9 @@ module RubyGolf
   #           level are prepended by two additional spaces per level away from
   #           the top level
   def self.pretty_hash(h)
-    h.inject("") do |o,(a,b)|
+    h.inject("") { |o,(a,b)|
       o<<"#{a}:\n"
-      o<< b.inject("") do |u,(c,d)|
-        u << (d ? "  #{c}:\n  - #{d.is_a?(Array) ? d.join("\n  - ") : d}\n" : "- #{c}\n")
-      end
-    end
+      o<< b.inject("") { |u,(c,d)| u << (d ? "  #{c}:\n  - #{d.is_a?(Array) ? d.join("\n  - ") : d}\n" : "- #{c}\n")}}
   end
 
 
@@ -110,7 +107,12 @@ module RubyGolf
   # output: an ascii art string ready for output where there aren't any trailing
   #         spaces after the last character in each line
   def self.bob_ross(s)
-
+    m = s.split("\n").map{|a| a.split.map{|b| b.to_i}}
+    m.sort_by{|a|a[0]}.inject('') do |a,b|
+      out = " "*m.size
+      out[b[1]] = b[2].chr
+      a << out << "\n"
+    end
   end
 
 end
