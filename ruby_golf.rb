@@ -8,6 +8,7 @@ module RubyGolf
   #         v - number of visible trailing numbers
   # output: x'ed out string
   def self.x_out_numbers(n, v)
+    (x=n.size-v)<0 ? n : ('x'*(x<0?0:x)+n[-v..-1])
   end
 
 
@@ -18,6 +19,7 @@ module RubyGolf
   # ouput:  a 'ruby style' version of the identifier: all lowercase, former case
   #         changes to upper case get a prepended underscore
   def self.underscore(s)
+    s.scan(/([A-Z])([a-z]*)/).map{|a,b|"#{a.downcase}#{b}"}.join('_')
   end
 
 
@@ -30,8 +32,12 @@ module RubyGolf
   #         Values that are hashes contain only smybols as keys too, this
   #         condition is maintained recursivley
   def self.symbolize_keys(h)
+    Hash[to_sym(h).map{|a,b| [a,to_sym(b)] }]
   end
 
+  def self.to_sym(h)
+    h.is_a?(Hash) ? Hash[h.map{|a,b|[a.to_sym,b]}] : h
+  end
 
   ##############################################################################
   # Hole 4: RubyGolf.grid_computing                                            #
@@ -85,6 +91,7 @@ module RubyGolf
   #           word 1* ...)
   #         * sum all products
   def self.word_letter_sum(s)
+    s.downcase.gsub(/s/,'').chars.inject(0){|x,a|x = x+a.ord-96}
   end
 
 
@@ -98,6 +105,7 @@ module RubyGolf
   # output: an ascii art string ready for output where there aren't any trailing
   #         spaces after the last character in each line
   def self.bob_ross(s)
+
   end
 
 end
