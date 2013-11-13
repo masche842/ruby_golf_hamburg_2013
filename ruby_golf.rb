@@ -32,11 +32,7 @@ module RubyGolf
   #         Values that are hashes contain only smybols as keys too, this
   #         condition is maintained recursivley
   def self.symbolize_keys(h)
-    Hash[to_sym(h).map{|a,b| [a,to_sym(b)] }]
-  end
-
-  def self.to_sym(h)
-    h.is_a?(Hash) ? Hash[h.map{|a,b|[a.to_sym,b]}] : h
+    Hash[h.map{|a,b| b.is_a?(Hash) ? [a.to_sym,symbolize_keys(b)] : [a.to_sym,b] }]
   end
 
   ##############################################################################
@@ -99,7 +95,7 @@ module RubyGolf
   #           word 1* ...)
   #         * sum all products
   def self.word_letter_sum(s)
-    s.downcase.gsub(/s/,'').chars.inject(0){|x,a|x = x+a.ord-96}
+    s.downcase.split.map{ |w| z += b.chars.inject(0){|x,a|x = x+a.ord-96}}
   end
 
 
